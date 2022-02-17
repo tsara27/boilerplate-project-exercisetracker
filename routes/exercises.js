@@ -24,7 +24,7 @@ module.exports.create = function (req, res) {
     user: req.existingUser._id,
     description: description,
     duration: duration,
-    date: date.toDateString
+    date: date
   });
 
   newExercise.save(function(err, data) {
@@ -35,6 +35,7 @@ module.exports.create = function (req, res) {
     const exerciseString = JSON.stringify(data, ["_id", "duration", "description", "date"]);
     let exerciseJson = JSON.parse(exerciseString);
     exerciseJson["username"] = req.existingUsername;
+    exerciseJson["date"] = data.date.toDateString();
 
     res.json(exerciseJson);
   });
