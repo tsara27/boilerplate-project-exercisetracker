@@ -1,7 +1,6 @@
 const User = require("../models/users.js").User;
 
 module.exports.create = function (req, res) {
-  console.log(req);
   const { username } = req.body;
   const newUser = new User({
     username: username
@@ -18,3 +17,25 @@ module.exports.create = function (req, res) {
   });
 }
 
+module.exports.loadUsers = function (req, res, next) {
+  User.find()
+    .select(["_id", "username", "exercises"])
+    .exec(function(err, documents) {
+      if (err) {
+        return console.error("ERROR");
+      }
+
+      req.listUsers = documents;
+      next();
+    });
+}
+
+module.exports.list = function (req, res) {
+  User.populate(req.listUsers, { path: "exercises" }, function(err, documents) {
+    if (err) {
+      return console.error("ERROR");
+    }
+
+    res.json(documents);
+  });
+}
