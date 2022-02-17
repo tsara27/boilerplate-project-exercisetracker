@@ -18,13 +18,13 @@ module.exports.findUser = function (req, res, next) {
 
 module.exports.create = function (req, res) {
   let { description, duration } = req.body;
-  let date = (req.body.date == "") ? (new Date) : req.body.date;
+  let date = (req.body.date == "") ? (new Date) : new Date(req.body.date);
 
   const newExercise = new Exercise({
     user: req.existingUser._id,
     description: description,
     duration: duration,
-    date: date
+    date: date.toDateString
   });
 
   newExercise.save(function(err, data) {
