@@ -60,9 +60,6 @@ module.exports.create = function (req, res) {
 }
 
 module.exports.logs = function (req, res) {
-  console.log(req.body);
-  console.log(req.params);
-  console.log(req.query);
   let { from, to, limit } = req.query;
   let exercises = Exercise.find({ user: req.existingUser["_id"] });
 
@@ -77,7 +74,6 @@ module.exports.logs = function (req, res) {
       return res.json(err);
     }
 
-    console.log(documents.length);
     const exerciseString = JSON.stringify(documents, ["duration", "description", "date"]);
     let exerciseJson = JSON.parse(exerciseString).map(function(data) {
       let date = new Date(data["date"]);
