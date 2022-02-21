@@ -71,6 +71,7 @@ module.exports.logs = function (req, res) {
     });
 
     let userJson = JSON.parse(JSON.stringify(req.existingUser));
+    userJson.count = exerciseJson.length;
     userJson.log = exerciseJson;
     res.json(userJson);
   });
