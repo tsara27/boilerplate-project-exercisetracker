@@ -29,7 +29,13 @@ module.exports.findUserByQuery = function (req, res, next) {
 
 module.exports.create = function (req, res) {
   let { description, duration } = req.body;
-  let date = (req.body.date == "") ? (new Date) : new Date(req.body.date);
+  let date = (req.body.date == "" req.body.date == undefined) ? (new Date) : new Date(req.body.date);
+
+  if (date == "Invalid Date") {
+    return res.json({
+      error: "Invalid Date"
+    })
+  }
 
   const newExercise = new Exercise({
     user: req.existingUser._id,
