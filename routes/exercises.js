@@ -67,6 +67,7 @@ module.exports.logs = function (req, res) {
     let exerciseJson = JSON.parse(exerciseString).map(function(data) {
       let date = new Date(data["date"]);
       return {
+        id: data["_id"],
         description: data["description"],
         duration: data["duration"],
         date: date.toDateString()
