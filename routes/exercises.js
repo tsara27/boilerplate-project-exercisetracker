@@ -54,6 +54,9 @@ module.exports.create = function (req, res) {
 }
 
 module.exports.logs = function (req, res) {
+  console.log(req.body);
+  console.log(req.params);
+  console.log(req.query);
   Exercise.find({ user: req.existingUser["_id"] }, function(err, documents) {
     if (err) {
       return res.json(err);
