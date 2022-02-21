@@ -62,6 +62,7 @@ module.exports.logs = function (req, res) {
       return res.json(err);
     }
 
+    console.log(documents.length);
     const exerciseString = JSON.stringify(documents, ["duration", "description", "date"]);
     let exerciseJson = JSON.parse(exerciseString).map(function(data) {
       let date = new Date(data["date"]);
