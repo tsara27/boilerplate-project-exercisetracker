@@ -4,9 +4,8 @@ const mongoose = require("mongoose");
 const ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports.findUser = function (req, res, next) {
-  User.findById(req.body[":_id"]).exec(function (err, user) {
+  User.findById(req.params["id"]).exec(function (err, user) {
     if (err) {
-      console.log(err);
       return res.json(err);
     }
 
@@ -20,7 +19,6 @@ module.exports.findUser = function (req, res, next) {
 module.exports.findUserByQuery = function (req, res, next) {
   User.findById(req.params["id"]).select(["_id", "username"]).exec(function (err, user) {
     if (err) {
-      console.log(err);
       return res.json(err);
     }
 
@@ -45,10 +43,11 @@ module.exports.create = function (req, res) {
       return res.json(err);
     }
 
-    const exerciseString = JSON.stringify(data, ["_id", "duration", "description", "date"]);
+    const exerciseString = JSON.stringify(data, ["duration", "description", "date"]);
     let exerciseJson = JSON.parse(exerciseString);
     exerciseJson["username"] = req.existingUsername;
     exerciseJson["date"] = data.date.toDateString();
+    exerciseJson["_id"] = req.existingUser._id;
 
     res.json(exerciseJson);
   });
