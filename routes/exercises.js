@@ -64,7 +64,15 @@ module.exports.logs = function (req, res) {
   console.log(req.params);
   console.log(req.query);
   let { from, to, limit } = req.query;
-  Exercise.find({ user: req.existingUser["_id"], date: { $gte: new Date(from), $lte: new Date(to) } }).limit(limit).exec(function(err, documents) {
+  let exercises = Exercise.find({ user: req.existingUser["_id"] });
+
+  if (from != undefined && to != undefined) {
+    exercises = Exercise.find({ user: req.existingUser["_id"], date: { $gte: new Date(from), $lte: new Date(to) }});
+  }
+
+  exercises = (limit == undefined) ? exercises : exercises.limit(limit);
+
+  exercises.exec(function(err, documents) {
     if (err) {
       return res.json(err);
     }
